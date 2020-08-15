@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Main = (props) => {
+export const Main = (props) => {
   const { children } = props;
 
   const classes = useStyles();
@@ -67,5 +67,3 @@ const Main = (props) => {
 Main.propTypes = {
   children: PropTypes.node,
 };
-
-export default Main;
