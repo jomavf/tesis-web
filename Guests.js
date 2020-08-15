@@ -1,5 +1,5 @@
 import React from "react";
 
 export const Guests = () => {
-  return <div>Helllooo!!! Gusts</div>;
+  return <div>Helllooo!!!</div>;
 };
