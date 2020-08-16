@@ -1,11 +1,11 @@
 import React from "react";
-import { Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect, Route } from "react-router-dom";
 
 import { RouteWithLayout } from "./components/RouteWithLayout";
 import { Main as MainLayout } from "./layouts/Main/Main";
 import { Minimal as MinimalLayout } from "./layouts/Minimal/Minimal";
 
-import { Guests } from "./views/Guests/Guests";
+import Guests from "./views/Guests/Guests";
 
 import { Events } from "./views/Events/Events";
 import { Restaurants } from "./views/Restaurants/Restaurants";
