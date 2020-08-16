@@ -18,13 +18,13 @@ const useStyles = makeStyles(() => ({
   root: {},
 }));
 
-export const CreateRestaurant = ({ className, location, ...rest }) => {
-  const restaurant = location.state != null ? location.state.restaurant : null;
+export const CreateGym = ({ className, location, ...rest }) => {
+  const gym = location.state != null ? location.state.gym : null;
   const classes = useStyles();
   const history = useHistory();
 
   const [values, setValues] = useState(
-    restaurant || {
+    gym || {
       name: "",
       description: "",
       imgUrl: "",
@@ -42,7 +42,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
     try {
       const result = await requestCreateOrUpdate(values);
       if (result.ok) {
-        history.push("/restaurants");
+        history.push("/gyms");
       }
     } catch (error) {
       console.log("some error ocurred!", error);
@@ -54,7 +54,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
       <form autoComplete="off" noValidate>
         <CardHeader
           subheader="La información puede ser editada posteriar a la creación"
-          title="Agregar nuevo restaurante"
+          title="Agregar nuevo gyme"
         />
         <Divider />
         <CardContent>
@@ -62,7 +62,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Por favor ingresar el nombre del restaurante"
+                helperText="Por favor ingresar el nombre del gyme"
                 label="Nombre"
                 margin="dense"
                 name="name"
@@ -75,7 +75,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Por favor ingresar la descripción del restaurante"
+                helperText="Por favor ingresar la descripción del gyme"
                 label="Descripción"
                 margin="dense"
                 name="description"
@@ -88,7 +88,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Por favor ingresar una url de la imagen del restaurante"
+                helperText="Por favor ingresar una url de la imagen del gyme"
                 label="Imagen (URL)"
                 margin="dense"
                 name="imgUrl"
@@ -103,7 +103,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
         <Divider />
         <CardActions>
           <Button color="primary" variant="contained" onClick={handleOnCreate}>
-            {restaurant == null ? "Crear" : "Actualizar"}
+            {gym == null ? "Crear" : "Actualizar"}
           </Button>
         </CardActions>
       </form>

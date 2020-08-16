@@ -10,6 +10,7 @@ import RestaurantIcon from "@material-ui/icons/Restaurant";
 import SpaIcon from "@material-ui/icons/Spa";
 import EventIcon from "@material-ui/icons/Event";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 
 import { Profile, SidebarNav } from "./components";
 
@@ -51,6 +52,11 @@ const Sidebar = (props) => {
       title: "Restaurantes",
       href: "/restaurants",
       icon: <RestaurantIcon />,
+    },
+    {
+      title: "Gimnasios",
+      href: "/gyms",
+      icon: <FitnessCenterIcon />,
     },
     {
       title: "Spas",

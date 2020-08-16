@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Redirect, Route } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
 
 import { RouteWithLayout } from "./components/RouteWithLayout";
 import { Main as MainLayout } from "./layouts/Main/Main";
@@ -12,6 +12,7 @@ import { Restaurants } from "./views/Restaurants/Restaurants";
 import { CreateRestaurant } from "./views/Restaurants/CreateRestaurant";
 import { Spas } from "./views/Spas/Spas";
 import { Gyms } from "./views/Gyms/Gyms";
+import { CreateGym } from "./views/Gyms/CreateGym";
 
 import { Videos } from "./views/Videos/Videos";
 
@@ -47,6 +48,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/restaurants/create"
+      />
+      <RouteWithLayout
+        component={Gyms}
+        exact
+        layout={MainLayout}
+        path="/gyms"
+      />
+      <RouteWithLayout
+        component={CreateGym}
+        exact
+        layout={MainLayout}
+        path="/gyms/create"
       />
       <RouteWithLayout
         component={Spas}

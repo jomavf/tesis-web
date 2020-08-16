@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/styles";
 
 import { useHistory } from "react-router-dom";
 
+import { requestRestaurants } from "./service";
+
 import { RestaurantsTable } from "./components/RestaurantsTable";
 import { RestaurantsToolbar } from "./components/RestaurantsToolbar";
-import mockData from "./data";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,10 +19,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Restaurants = () => {
-  let history = useHistory();
+  const history = useHistory();
   const classes = useStyles();
 
-  const [restaurants] = useState(mockData);
+  const [restaurants, setRestaurants] = useState([]);
+
+  async function getRestaurants() {
+    try {
+      const { ok, data } = await requestRestaurants();
+      if (!ok) {
+        console.log("some error ocurred!");
+      }
+      setRestaurants(data);
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
 
   const handleAddRestaurant = () => {
     history.push("/restaurants/create");
@@ -31,7 +46,10 @@ export const Restaurants = () => {
     <div className={classes.root}>
       <RestaurantsToolbar handleAddRestaurant={handleAddRestaurant} />
       <div className={classes.content}>
-        <RestaurantsTable restaurants={restaurants} />
+        <RestaurantsTable
+          restaurants={restaurants}
+          setRestaurants={setRestaurants}
+        />
       </div>
     </div>
   );

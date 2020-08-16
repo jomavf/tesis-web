@@ -15,13 +15,13 @@ import {
   TableRow,
   TablePagination,
 } from "@material-ui/core";
-import { DeleteDialog } from "../../../components/DeleteDialog";
 
 import { useHistory } from "react-router-dom";
 
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { requestDelete, requestRestaurants } from "../service";
+import { requestDelete, requestGyms } from "../service";
+import { DeleteDialog } from "../../../components/DeleteDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -43,57 +43,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RestaurantsTable = ({
-  className,
-  restaurants,
-  setRestaurants,
-  ...rest
-}) => {
+export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
   const history = useHistory();
   const classes = useStyles();
 
-  const [selectedRestaurants, setSelectedRestaurants] = useState([]);
+  const [selectedGyms, setSelectedGyms] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [restaurantIdToDelete, setRestaurantIdToDelete] = useState(null);
+  const [gymIdToDelete, setGymIdToDelete] = useState(null);
 
   const handleSelectAll = (event) => {
-    let selectedRestaurants;
+    let selectedGyms;
     if (event.target.checked) {
-      selectedRestaurants = restaurants.map((restaurant) => restaurant.id);
+      selectedGyms = gyms.map((gym) => gym.id);
     } else {
-      selectedRestaurants = [];
+      selectedGyms = [];
     }
 
-    setSelectedRestaurants(selectedRestaurants);
+    setSelectedGyms(selectedGyms);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedRestaurants.indexOf(id);
-    let newSelectedRestaurants = [];
+    const selectedIndex = selectedGyms.indexOf(id);
+    let newSelectedGyms = [];
 
     if (selectedIndex === -1) {
-      newSelectedRestaurants = newSelectedRestaurants.concat(
-        selectedRestaurants,
-        id
-      );
+      newSelectedGyms = newSelectedGyms.concat(selectedGyms, id);
     } else if (selectedIndex === 0) {
-      newSelectedRestaurants = newSelectedRestaurants.concat(
-        selectedRestaurants.slice(1)
-      );
-    } else if (selectedIndex === selectedRestaurants.length - 1) {
-      newSelectedRestaurants = newSelectedRestaurants.concat(
-        selectedRestaurants.slice(0, -1)
-      );
+      newSelectedGyms = newSelectedGyms.concat(selectedGyms.slice(1));
+    } else if (selectedIndex === selectedGyms.length - 1) {
+      newSelectedGyms = newSelectedGyms.concat(selectedGyms.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedRestaurants = newSelectedRestaurants.concat(
-        selectedRestaurants.slice(0, selectedIndex),
-        selectedRestaurants.slice(selectedIndex + 1)
+      newSelectedGyms = newSelectedGyms.concat(
+        selectedGyms.slice(0, selectedIndex),
+        selectedGyms.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedRestaurants(newSelectedRestaurants);
+    setSelectedGyms(newSelectedGyms);
   };
 
   const handlePageChange = (event, page) => {
@@ -115,13 +103,11 @@ export const RestaurantsTable = ({
                   <TableRow>
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={
-                          selectedRestaurants.length === restaurants.length
-                        }
+                        checked={selectedGyms.length === gyms.length}
                         color="primary"
                         indeterminate={
-                          selectedRestaurants.length > 0 &&
-                          selectedRestaurants.length < restaurants.length
+                          selectedGyms.length > 0 &&
+                          selectedGyms.length < gyms.length
                         }
                         onChange={handleSelectAll}
                       />
@@ -134,35 +120,31 @@ export const RestaurantsTable = ({
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {restaurants.slice(0, rowsPerPage).map((restaurant) => (
+                  {gyms.slice(0, rowsPerPage).map((gym) => (
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={restaurant.id}
-                      selected={
-                        selectedRestaurants.indexOf(restaurant.id) !== -1
-                      }
+                      key={gym.id}
+                      selected={selectedGyms.indexOf(gym.id) !== -1}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                          checked={
-                            selectedRestaurants.indexOf(restaurant.id) !== -1
-                          }
+                          checked={selectedGyms.indexOf(gym.id) !== -1}
                           color="primary"
-                          onChange={(event) =>
-                            handleSelectOne(event, restaurant.id)
-                          }
+                          onChange={(event) => handleSelectOne(event, gym.id)}
                           value="true"
                         />
                       </TableCell>
-                      <TableCell>{restaurant.name}</TableCell>
-                      <TableCell>{restaurant.description}</TableCell>
+                      <TableCell>{gym.name}</TableCell>
+                      <TableCell>{gym.description}</TableCell>
                       <TableCell>
-                        <EditIcon onClick={() => setOpenDeleteDialog(true)} />{" "}
+                        <EditIcon
+                          onClick={() => history.push("/gyms/create", { gym })}
+                        />{" "}
                         <DeleteIcon
                           onClick={() => {
                             setOpenDeleteDialog(true);
-                            setRestaurantIdToDelete(restaurant.id);
+                            setGymIdToDelete(gym.id);
                           }}
                         />
                       </TableCell>
@@ -176,7 +158,7 @@ export const RestaurantsTable = ({
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={restaurants.length}
+            count={gyms.length}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowsPerPageChange}
             page={page}
@@ -188,16 +170,16 @@ export const RestaurantsTable = ({
       <DeleteDialog
         handleDeletion={async () => {
           try {
-            if (!restaurantIdToDelete) {
+            if (!gymIdToDelete) {
               return;
             }
-            let result = await requestDelete(restaurantIdToDelete);
+            let result = await requestDelete(gymIdToDelete);
 
-            const { ok, data } = await requestRestaurants();
+            const { ok, data } = await requestGyms();
             if (!ok) {
               console.log("some error ocurred!");
             }
-            setRestaurants(data);
+            setGyms(data);
           } catch (error) {
             console.error("error while delelting!");
           }
@@ -209,7 +191,7 @@ export const RestaurantsTable = ({
   );
 };
 
-RestaurantsTable.propTypes = {
+GymsTable.propTypes = {
   className: PropTypes.string,
-  restaurants: PropTypes.array.isRequired,
+  gyms: PropTypes.array.isRequired,
 };
