@@ -13,9 +13,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
   TablePagination,
-  Button,
 } from "@material-ui/core";
 
 import EditIcon from "@material-ui/icons/Edit";

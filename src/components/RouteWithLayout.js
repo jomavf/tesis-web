@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 export const RouteWithLayout = (props) => {
   const { layout: Layout, component: Component, ...rest } = props;
-
+  debugger;
   return (
     <Route
       {...rest}

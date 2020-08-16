@@ -3,6 +3,7 @@ import { Switch, Redirect } from "react-router-dom";
 
 import { RouteWithLayout } from "./components/RouteWithLayout";
 import { Main as MainLayout } from "./layouts/Main/Main";
+import { Minimal as MinimalLayout } from "./layouts/Minimal/Minimal";
 
 import { Guests } from "./views/Guests/Guests";
 
@@ -16,6 +17,8 @@ import { Videos } from "./views/Videos/Videos";
 
 import { Account } from "./views/Account/Account";
 import { Settings } from "./views/Settings/Settings";
+
+import { NotFound as NotFoundView } from "./views/NotFound";
 
 const Routes = () => {
   return (
@@ -74,6 +77,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/settings"
+      />
+      <RouteWithLayout
+        component={NotFoundView}
+        exact
+        layout={MinimalLayout}
+        path="/not-found"
       />
       <Redirect to="/not-found" />
     </Switch>

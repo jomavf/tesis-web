@@ -6,7 +6,6 @@ import { Divider, Drawer } from "@material-ui/core";
 import PeopleIcon from "@material-ui/icons/People";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import SettingsIcon from "@material-ui/icons/Settings";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import SpaIcon from "@material-ui/icons/Spa";
 import EventIcon from "@material-ui/icons/Event";

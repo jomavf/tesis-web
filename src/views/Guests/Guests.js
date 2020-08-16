@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Guests = () => {
-  return <div>Helllooo!!! Gusts</div>;
+export const Guests = (props) => {
+  return <div>Helllooo!!! Guests wtf</div>;
 };
