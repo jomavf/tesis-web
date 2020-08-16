@@ -1,6 +1,5 @@
 import React from "react";
 
-import { createBrowserHistory } from "history";
 import { ThemeProvider } from "@material-ui/styles";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./Routes";
