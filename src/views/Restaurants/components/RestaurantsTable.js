@@ -158,7 +158,11 @@ export const RestaurantsTable = ({
                       <TableCell>{restaurant.name}</TableCell>
                       <TableCell>{restaurant.description}</TableCell>
                       <TableCell>
-                        <EditIcon onClick={() => setOpenDeleteDialog(true)} />{" "}
+                        <EditIcon
+                          onClick={() =>
+                            history.push("/restaurants/create", { restaurant })
+                          }
+                        />{" "}
                         <DeleteIcon
                           onClick={() => {
                             setOpenDeleteDialog(true);
