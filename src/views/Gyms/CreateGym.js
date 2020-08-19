@@ -16,6 +16,8 @@ import {
 import { requestCreateOrUpdate } from "./service";
 import { useHistory } from "react-router-dom";
 import { TextFieldFormik } from "../../components/TextFieldFormik";
+import { SUCCESSFUL_OPERATION } from "../../constants";
+import { useSnackbar } from "notistack";
 
 const CreateGymSchema = Yup.object().shape({
   name: Yup.string().required("*Este campo es requerido"),
@@ -36,6 +38,7 @@ export const CreateGym = ({ className, location, ...rest }) => {
   const gym = location.state != null ? location.state.gym : null;
   const classes = useStyles();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: gym || {
@@ -48,6 +51,7 @@ export const CreateGym = ({ className, location, ...rest }) => {
         const result = await requestCreateOrUpdate(values);
         if (result.success) {
           history.push("/gyms");
+          enqueueSnackbar(SUCCESSFUL_OPERATION, { variant: "success" });
         }
       } catch (error) {
         console.log("some error ocurred!", error);

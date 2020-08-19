@@ -16,6 +16,8 @@ import {
 import { requestCreateOrUpdate } from "./service";
 import { useHistory } from "react-router-dom";
 import { TextFieldFormik } from "../../components/TextFieldFormik";
+import { useSnackbar } from "notistack";
+import { SUCCESSFUL_OPERATION } from "../../constants";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -36,6 +38,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
   const restaurant = location.state != null ? location.state.restaurant : null;
   const classes = useStyles();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: restaurant || {
       name: "",
@@ -49,6 +52,7 @@ export const CreateRestaurant = ({ className, location, ...rest }) => {
         });
         if (result.success) {
           history.push("/restaurants");
+          enqueueSnackbar(SUCCESSFUL_OPERATION, { variant: "success" });
         }
       } catch (error) {
         console.log("some error ocurred!", error);

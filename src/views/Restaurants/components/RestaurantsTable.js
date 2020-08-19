@@ -23,6 +23,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { requestDelete, requestRestaurants } from "../service";
 
+import { useSnackbar } from "notistack";
+import { SUCCESSFUL_OPERATION } from "../../../constants";
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
@@ -51,6 +54,7 @@ export const RestaurantsTable = ({
 }) => {
   const history = useHistory();
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -203,6 +207,7 @@ export const RestaurantsTable = ({
               console.log("some error ocurred!");
             }
             setRestaurants(data);
+            enqueueSnackbar(SUCCESSFUL_OPERATION, { variant: "success" });
           } catch (error) {
             console.error("error while delelting!");
           }

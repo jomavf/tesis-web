@@ -23,6 +23,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { requestDelete, requestGyms } from "../service";
 import { DeleteDialog } from "../../../components/DeleteDialog";
 
+import { useSnackbar } from "notistack";
+import { SUCCESSFUL_OPERATION } from "../../../constants";
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
@@ -46,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
   const history = useHistory();
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [selectedGyms, setSelectedGyms] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -181,6 +185,9 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
               console.log("some error ocurred!");
             }
             setGyms(data);
+            enqueueSnackbar(SUCCESSFUL_OPERATION, {
+              variant: "success",
+            });
           } catch (error) {
             console.error("error while delelting!");
           }
