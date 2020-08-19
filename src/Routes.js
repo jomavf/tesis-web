@@ -19,6 +19,9 @@ import { Videos } from "./views/Videos/Videos";
 import { Account } from "./views/Account/Account";
 import { Settings } from "./views/Settings/Settings";
 
+import SignIn from "./views/SignIn/SignIn";
+import SignUp from "./views/SignUp";
+
 import { NotFound as NotFoundView } from "./views/NotFound";
 
 const Routes = () => {
@@ -96,6 +99,18 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/not-found"
+      />
+      <RouteWithLayout
+        component={SignUp}
+        exact
+        layout={MinimalLayout}
+        path="/sign-up"
+      />
+      <RouteWithLayout
+        component={SignIn}
+        exact
+        layout={MinimalLayout}
+        path="/sign-in"
       />
       <Redirect to="/not-found" />
     </Switch>

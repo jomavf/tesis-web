@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
   Card,
   CardHeader,
@@ -13,6 +15,18 @@ import {
 } from "@material-ui/core";
 import { requestCreateOrUpdate } from "./service";
 import { useHistory } from "react-router-dom";
+import { TextFieldFormik } from "../../components/TextFieldFormik";
+
+const CreateGymSchema = Yup.object().shape({
+  name: Yup.string().required("*Este campo es requerido"),
+  description: Yup.string().required("*Este campo es requerido"),
+  imgUrl: Yup.string()
+    .matches(
+      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/,
+      "Porfavor ingresar el formato de URL"
+    )
+    .required("*Este campo es requerido"),
+});
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -23,35 +37,28 @@ export const CreateGym = ({ className, location, ...rest }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const [values, setValues] = useState(
-    gym || {
+  const formik = useFormik({
+    initialValues: gym || {
       name: "",
       description: "",
       imgUrl: "",
-    }
-  );
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleOnCreate = async () => {
-    try {
-      const result = await requestCreateOrUpdate(values);
-      if (result.ok) {
-        history.push("/gyms");
+    },
+    onSubmit: async (values) => {
+      try {
+        const result = await requestCreateOrUpdate(values);
+        if (result.success) {
+          history.push("/gyms");
+        }
+      } catch (error) {
+        console.log("some error ocurred!", error);
       }
-    } catch (error) {
-      console.log("some error ocurred!", error);
-    }
-  };
+    },
+    validationSchema: CreateGymSchema,
+  });
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
-      <form autoComplete="off" noValidate>
+      <form autoComplete="off" onSubmit={formik.handleSubmit}>
         <CardHeader
           subheader="La información puede ser editada posteriar a la creación"
           title="Agregar nuevo gyme"
@@ -60,49 +67,38 @@ export const CreateGym = ({ className, location, ...rest }) => {
         <CardContent>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                helperText="Por favor ingresar el nombre del gyme"
+              <TextFieldFormik
+                formik={formik}
                 label="Nombre"
-                margin="dense"
                 name="name"
-                onChange={handleChange}
-                required
-                value={values.name}
-                variant="outlined"
+                helperTextDefault={"Por favor ingrese el nombre del gimnasio"}
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                helperText="Por favor ingresar la descripción del gyme"
+              <TextFieldFormik
+                formik={formik}
                 label="Descripción"
-                margin="dense"
                 name="description"
-                onChange={handleChange}
-                required
-                value={values.description}
-                variant="outlined"
+                helperTextDefault={
+                  "Por favor ingrese la descripción del gimnasio"
+                }
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                helperText="Por favor ingresar una url de la imagen del gyme"
+              <TextFieldFormik
+                formik={formik}
                 label="Imagen (URL)"
-                margin="dense"
                 name="imgUrl"
-                onChange={handleChange}
-                required
-                value={values.imgUrl}
-                variant="outlined"
+                helperTextDefault={
+                  "Por favor ingresar una url de la imagen del gimnasio"
+                }
               />
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <CardActions>
-          <Button color="primary" variant="contained" onClick={handleOnCreate}>
+          <Button type="submit" color="primary" variant="contained">
             {gym == null ? "Crear" : "Actualizar"}
           </Button>
         </CardActions>

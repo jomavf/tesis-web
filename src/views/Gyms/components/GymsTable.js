@@ -163,6 +163,7 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
             onChangeRowsPerPage={handleRowsPerPageChange}
             page={page}
             rowsPerPage={rowsPerPage}
+            labelRowsPerPage={"Filas por página"}
             rowsPerPageOptions={[5, 10, 25]}
           />
         </CardActions>

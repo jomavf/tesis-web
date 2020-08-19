@@ -180,6 +180,7 @@ export const RestaurantsTable = ({
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
+            labelRowsPerPage={"Filas por página"}
             count={restaurants.length}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowsPerPageChange}
