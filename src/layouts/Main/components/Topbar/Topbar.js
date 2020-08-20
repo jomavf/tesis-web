@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
-import InputIcon from "@material-ui/icons/Input";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Topbar = (props) => {
   const { className, onSidebarOpen, ...rest } = props;
-
+  const history = useHistory();
   const classes = useStyles();
 
   const [notifications] = useState([]);
@@ -53,7 +53,10 @@ const Topbar = (props) => {
           </IconButton>
           {localStorage.getItem("token") ? (
             <Button
-              onClick={() => localStorage.removeItem("token")}
+              onClick={() => {
+                localStorage.removeItem("token");
+                history.push("/sign-in");
+              }}
               variant="outlined"
               size="small"
               style={{ color: "white", border: "1px solid gray" }}
@@ -73,7 +76,10 @@ const Topbar = (props) => {
         <Hidden lgUp>
           {localStorage.getItem("token") ? (
             <Button
-              onClick={() => localStorage.removeItem("token")}
+              onClick={() => {
+                localStorage.removeItem("token");
+                history.push("/sign-in");
+              }}
               variant="outlined"
               size="small"
               style={{ color: "white", border: "1px solid gray" }}

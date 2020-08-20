@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect, useHistory } from "react-router-dom";
 
 import { RouteWithLayout } from "./components/RouteWithLayout";
 import { Main as MainLayout } from "./layouts/Main/Main";
@@ -25,6 +25,11 @@ import SignUp from "./views/SignUp";
 import { NotFound as NotFoundView } from "./views/NotFound";
 
 const Routes = () => {
+  const history = useHistory();
+  if (localStorage.getItem("token") == null) {
+    history.push("/sign-in");
+  }
+
   return (
     <Switch>
       <Redirect exact from="/" to="/guests" />

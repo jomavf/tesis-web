@@ -6,6 +6,9 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid, Button, TextField, Typography } from "@material-ui/core";
 import { requestLogin } from "./services/login";
 
+import { useSnackbar } from "notistack";
+import { SUCCESSFUL_OPERATION, WRONG_CREDENTIALS } from "../../constants";
+
 const schema = {
   email: {
     presence: { allowEmpty: false, message: "es requerido" },
@@ -15,6 +18,7 @@ const schema = {
     },
   },
   password: {
+    // message: "Contraseña tiene que ser válida",
     presence: { allowEmpty: false, message: "es requerido" },
     length: {
       maximum: 128,
@@ -117,8 +121,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
-  const { history } = props;
-
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
@@ -157,23 +161,23 @@ const SignIn = (props) => {
     }));
   };
 
-  const handleSignIn = (event) => {
+  const handleSignIn = async (event) => {
     event.preventDefault();
-    history.push("/");
-  };
-
-  const hasError = (field) =>
-    formState.touched[field] && formState.errors[field] ? true : false;
-
-  const login = async () => {
     const response = await requestLogin(formState.values);
+    console.log("response", response);
     if (response.success) {
+      const { data } = response;
+      localStorage.setItem("token", data.token);
       history.push("/restaurants");
     } else {
       // show message error while signing in
       history.push("/sign-in");
+      enqueueSnackbar(WRONG_CREDENTIALS, { variant: "error" });
     }
   };
+
+  const hasError = (field) =>
+    formState.touched[field] && formState.errors[field] ? true : false;
 
   return (
     <div className={classes.root}>
@@ -244,7 +248,6 @@ const SignIn = (props) => {
                   size="large"
                   type="submit"
                   variant="contained"
-                  onClick={login}
                 >
                   Inicia sesión ahora
                 </Button>
