@@ -50,6 +50,7 @@ export const LocalsTable = ({ className, items, setItems, ...rest }) => {
   const history = useHistory();
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const domain = "local";
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -146,7 +147,7 @@ export const LocalsTable = ({ className, items, setItems, ...rest }) => {
                       <TableCell>
                         <EditIcon
                           onClick={() =>
-                            history.push("/events/create", { item: item })
+                            history.push(`/${domain}s/create`, { [domain]: item })
                           }
                         />{" "}
                         <DeleteIcon

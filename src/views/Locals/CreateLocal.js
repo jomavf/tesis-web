@@ -36,6 +36,7 @@ const CreateRestaurantSchema = Yup.object().shape({
 
 export const CreateLocal = ({ className, location, ...rest }) => {
   const domain = "local";
+  const domainLabel = "Local";
   const item = location.state != null ? location.state[domain] : null;
   const classes = useStyles();
   const history = useHistory();
@@ -67,7 +68,7 @@ export const CreateLocal = ({ className, location, ...rest }) => {
       <form autoComplete="off" onSubmit={formik.handleSubmit}>
         <CardHeader
           subheader="La información puede ser editada posteriar a la creación"
-          title="Agregar nuevo restaurante"
+          title={`Agregar nuevo ${domainLabel}`}
         />
         <Divider />
         <CardContent>
@@ -77,9 +78,7 @@ export const CreateLocal = ({ className, location, ...rest }) => {
                 formik={formik}
                 label="Nombre"
                 name="name"
-                helperTextDefault={
-                  "Por favor ingrese el nombre del restaurante"
-                }
+                helperTextDefault={`Por favor ingrese el nombre del ${domainLabel}`}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -87,9 +86,7 @@ export const CreateLocal = ({ className, location, ...rest }) => {
                 formik={formik}
                 label="Descripción"
                 name="description"
-                helperTextDefault={
-                  "Por favor ingrese la descripción del restaurante"
-                }
+                helperTextDefault={`Por favor ingrese la descripción del ${domainLabel}`}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -97,9 +94,7 @@ export const CreateLocal = ({ className, location, ...rest }) => {
                 formik={formik}
                 label="Imagen (URL)"
                 name="imgUrl"
-                helperTextDefault={
-                  "Por favor ingresar una url de la imagen del restaurante"
-                }
+                helperTextDefault={`Por favor ingresar una url de la imagen del ${domainLabel}`}
               />
             </Grid>
           </Grid>
