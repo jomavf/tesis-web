@@ -1,5 +1,5 @@
 import { BASE_URL } from "../../../constants";
-
+export * from "./reservation";
 export async function requestRestaurants() {
   const url = `${BASE_URL}/restaurants`;
   const response = await fetch(url, {

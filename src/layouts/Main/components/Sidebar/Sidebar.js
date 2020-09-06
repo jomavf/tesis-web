@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Divider, Drawer } from "@material-ui/core";
 import PeopleIcon from "@material-ui/icons/People";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import SettingsIcon from "@material-ui/icons/Settings";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
+import ListIcon from "@material-ui/icons/List";
+import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import SpaIcon from "@material-ui/icons/Spa";
+import LocalActivityIcon from "@material-ui/icons/LocalActivity";
 import EventIcon from "@material-ui/icons/Event";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 
 import { Profile, SidebarNav } from "./components";
@@ -44,44 +44,76 @@ const Sidebar = (props) => {
 
   const pages = [
     {
+      index: 0,
       title: "Huespedes",
       href: "/guests",
       icon: <PeopleIcon />,
     },
     {
+      index: 1,
       title: "Restaurantes",
-      href: "/restaurants",
       icon: <RestaurantIcon />,
+      children: [
+        { title: "Listado", icon: <ListIcon />, href: "/restaurants" },
+        {
+          title: "Reservas",
+          icon: <EventAvailableIcon />,
+          href: "/restaurants/reservations",
+        },
+      ],
     },
     {
+      index: 2,
       title: "Gimnasios",
-      href: "/gyms",
+
       icon: <FitnessCenterIcon />,
+      children: [
+        { title: "Listado", icon: <ListIcon />, href: "/gyms" },
+        {
+          title: "Reservas",
+          icon: <EventAvailableIcon />,
+          href: "/gyms/reservations",
+        },
+      ],
     },
     {
+      index: 3,
       title: "Spas",
-      href: "/spas",
       icon: <SpaIcon />,
+      children: [
+        { title: "Listado", icon: <ListIcon />, href: "/spas" },
+        {
+          title: "Reservas",
+          icon: <EventAvailableIcon />,
+          href: "/spas/reservations",
+        },
+      ],
     },
     {
+      index: 4,
       title: "Eventos",
-      href: "/events",
       icon: <EventIcon />,
+      children: [
+        { title: "Listado", icon: <ListIcon />, href: "/events" },
+        {
+          title: "Reservas",
+          icon: <EventAvailableIcon />,
+          href: "/events/reservations",
+        },
+      ],
     },
     {
-      title: "Videos",
-      href: "/videos",
-      icon: <VideoLibraryIcon />,
-    },
-    {
-      title: "Cuenta",
-      href: "/account",
-      icon: <AccountBoxIcon />,
-    },
-    {
-      title: "Configuración",
-      href: "/settings",
-      icon: <SettingsIcon />,
+      index: 4,
+      title: "Locales",
+      icon: <LocalActivityIcon />,
+      children: [
+        { title: "Listado", icon: <ListIcon />, href: "/locals" },
+        {
+          title: "Reservas",
+          icon: <EventAvailableIcon />,
+          href: "/locals/reservations",
+        },
+      ],
     },
   ];
 

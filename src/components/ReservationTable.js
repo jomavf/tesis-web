@@ -3,6 +3,9 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { makeStyles } from "@material-ui/styles";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
 import {
   Card,
   CardActions,
@@ -15,16 +18,15 @@ import {
   TableRow,
   TablePagination,
 } from "@material-ui/core";
+import { DeleteDialog } from "./DeleteDialog";
 
 import { useHistory } from "react-router-dom";
 
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { requestDelete, requestItems } from "../service";
-import { DeleteDialog } from "../../../components/DeleteDialog";
 
 import { useSnackbar } from "notistack";
-import { SUCCESSFUL_OPERATION } from "../../../constants";
+import { SUCCESSFUL_OPERATION } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -46,46 +48,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
+export const ReservationTable = ({
+  className,
+  items,
+  setItems,
+  requestItemDelete,
+  requestItems,
+  domainLabel,
+  domain,
+  ...rest
+}) => {
+  console.log("items", items);
   const history = useHistory();
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [selectedGyms, setSelectedGyms] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [gymIdToDelete, setGymIdToDelete] = useState(null);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
 
   const handleSelectAll = (event) => {
-    let selectedGyms;
+    let selected;
     if (event.target.checked) {
-      selectedGyms = gyms.map((gym) => gym.id);
+      selected = items.map((item) => item.id);
     } else {
-      selectedGyms = [];
+      selected = [];
     }
 
-    setSelectedGyms(selectedGyms);
+    setSelectedItems(selected);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedGyms.indexOf(id);
-    let newSelectedGyms = [];
+    const selectedIndex = selectedItems.indexOf(id);
+    let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelectedGyms = newSelectedGyms.concat(selectedGyms, id);
+      newSelected = newSelected.concat(selectedItems, id);
     } else if (selectedIndex === 0) {
-      newSelectedGyms = newSelectedGyms.concat(selectedGyms.slice(1));
-    } else if (selectedIndex === selectedGyms.length - 1) {
-      newSelectedGyms = newSelectedGyms.concat(selectedGyms.slice(0, -1));
+      newSelected = newSelected.concat(selectedItems.slice(1));
+    } else if (selectedIndex === selectedItems.length - 1) {
+      newSelected = newSelected.concat(selectedItems.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedGyms = newSelectedGyms.concat(
-        selectedGyms.slice(0, selectedIndex),
-        selectedGyms.slice(selectedIndex + 1)
+      newSelected = newSelected.concat(
+        selectedItems.slice(0, selectedIndex),
+        selectedItems.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedGyms(newSelectedGyms);
+    setSelectedItems(newSelected);
   };
 
   const handlePageChange = (event, page) => {
@@ -107,48 +119,70 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
                   <TableRow>
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={selectedGyms.length === gyms.length}
+                        checked={selectedItems.length === items.length}
                         color="primary"
                         indeterminate={
-                          selectedGyms.length > 0 &&
-                          selectedGyms.length < gyms.length
+                          selectedItems.length > 0 &&
+                          selectedItems.length < items.length
                         }
                         onChange={handleSelectAll}
                       />
                     </TableCell>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell>Descripción</TableCell>
-                    {/* <TableCell>Capacidad</TableCell>
-                  {/* <TableCell>Horario de atención</TableCell> */}
+                    <TableCell>{domainLabel}</TableCell>
+                    <TableCell>Huesped</TableCell>
+                    <TableCell>Descripcion</TableCell>
+                    <TableCell>Hora de inicio</TableCell>
+                    <TableCell>Hora de Fin</TableCell>
                     <TableCell>Acciones</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {gyms.slice(0, rowsPerPage).map((gym) => (
+                  {items.slice(0, rowsPerPage).map((item) => (
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={gym.id}
-                      selected={selectedGyms.indexOf(gym.id) !== -1}
+                      key={item.id}
+                      selected={selectedItems.indexOf(item.id) !== -1}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                          checked={selectedGyms.indexOf(gym.id) !== -1}
+                          checked={selectedItems.indexOf(item.id) !== -1}
                           color="primary"
-                          onChange={(event) => handleSelectOne(event, gym.id)}
+                          onChange={(event) => handleSelectOne(event, item.id)}
                           value="true"
                         />
                       </TableCell>
-                      <TableCell>{gym.name}</TableCell>
-                      <TableCell>{gym.description}</TableCell>
+                      <TableCell>
+                        {item[domain] ? item[domain].name : "No definido"}
+                      </TableCell>
+                      <TableCell>
+                        {item["guest"]
+                          ? item.guest.first_name + item.guest.last_name
+                          : "No definido"}
+                      </TableCell>
+                      <TableCell>{item.description}</TableCell>
+                      <TableCell>
+                        {format(new Date(item.start_time), "PPpp", {
+                          locate: es,
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {format(new Date(item.end_time), "PPpp", {
+                          locate: es,
+                        })}
+                      </TableCell>
                       <TableCell>
                         <EditIcon
-                          onClick={() => history.push("/gyms/create", { gym })}
+                          onClick={() =>
+                            history.push(`/${domain}s/reservations/create`, {
+                              [domain]: item,
+                            })
+                          }
                         />{" "}
                         <DeleteIcon
                           onClick={() => {
                             setOpenDeleteDialog(true);
-                            setGymIdToDelete(gym.id);
+                            setItemIdToDelete(item.id);
                           }}
                         />
                       </TableCell>
@@ -162,12 +196,12 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={gyms.length}
+            labelRowsPerPage={"Filas por página"}
+            count={items.length}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowsPerPageChange}
             page={page}
             rowsPerPage={rowsPerPage}
-            labelRowsPerPage={"Filas por página"}
             rowsPerPageOptions={[5, 10, 25]}
           />
         </CardActions>
@@ -175,19 +209,18 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
       <DeleteDialog
         handleDeletion={async () => {
           try {
-            if (!gymIdToDelete) {
+            if (!itemIdToDelete) {
               return;
             }
-            let result = await requestDelete(gymIdToDelete);
 
-            const { ok, data } = await requestItems();
-            if (!ok) {
+            let result = await requestItemDelete(itemIdToDelete);
+
+            const { success, data = [] } = await requestItems();
+            if (!success) {
               console.log("some error ocurred!");
             }
-            setGyms(data);
-            enqueueSnackbar(SUCCESSFUL_OPERATION, {
-              variant: "success",
-            });
+            setItems(data);
+            enqueueSnackbar(SUCCESSFUL_OPERATION, { variant: "success" });
           } catch (error) {
             console.error("error while delelting!");
           }
@@ -197,9 +230,4 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
       />
     </>
   );
-};
-
-GymsTable.propTypes = {
-  className: PropTypes.string,
-  gyms: PropTypes.array.isRequired,
 };

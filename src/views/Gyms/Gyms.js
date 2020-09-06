@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import { useHistory } from "react-router-dom";
 
-import { requestGyms } from "./service";
+import { requestItems } from "./service";
 
 import { GymsTable } from "./components/GymsTable";
 import { GymsToolbar } from "./components/GymsToolbar";
@@ -26,7 +26,7 @@ export const Gyms = () => {
 
   async function getGyms() {
     try {
-      const { ok, data } = await requestGyms();
+      const { ok, data } = await requestItems();
       if (!ok) {
         console.log("some error ocurred!");
       }

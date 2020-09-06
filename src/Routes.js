@@ -8,13 +8,24 @@ import { Minimal as MinimalLayout } from "./layouts/Minimal/Minimal";
 import Guests from "./views/Guests/Guests";
 
 import { Events } from "./views/Events/Events";
-import { Restaurants } from "./views/Restaurants/Restaurants";
-import { CreateRestaurant } from "./views/Restaurants/CreateRestaurant";
-import { Spas } from "./views/Spas/Spas";
+import { CreateEvent } from "./views/Events/CreateEvent";
+import { Reservations as EventReservations } from "./views/Events/Reservations";
+import { CreateReservation as CreateEventsReservation } from "./views/Events/CreateReservation";
+
 import { Gyms } from "./views/Gyms/Gyms";
 import { CreateGym } from "./views/Gyms/CreateGym";
+import { Reservations as GymReservations } from "./views/Gyms/Reservations";
+import { CreateReservation as CreateGymsReservation } from "./views/Gyms/CreateReservation";
 
-import { Videos } from "./views/Videos/Videos";
+import { Restaurants } from "./views/Restaurants/Restaurants";
+import { Reservations as RestaurantReservations } from "./views/Restaurants/Reservations";
+import { CreateRestaurant } from "./views/Restaurants/CreateRestaurant";
+import { CreateReservation as CreateRestaurantReservation } from "./views/Restaurants/CreateReservation";
+
+import { Spas } from "./views/Spas/Spas";
+import { CreateSpa } from "./views/Spas/CreateSpa";
+import { Reservations as SpaReservations } from "./views/Spas/Reservations";
+import { CreateReservation as CreateSpaReservation } from "./views/Spas/CreateReservation";
 
 import { Account } from "./views/Account/Account";
 import { Settings } from "./views/Settings/Settings";
@@ -23,6 +34,7 @@ import SignIn from "./views/SignIn/SignIn";
 import SignUp from "./views/SignUp";
 
 import { NotFound as NotFoundView } from "./views/NotFound";
+import { CreateReservation } from "./components/CreateReservation";
 
 const Routes = () => {
   const history = useHistory();
@@ -46,10 +58,42 @@ const Routes = () => {
         path="/events"
       />
       <RouteWithLayout
+        component={EventReservations}
+        exact
+        layout={MainLayout}
+        path="/events/reservations"
+      />
+      <RouteWithLayout
+        component={CreateEvent}
+        exact
+        layout={MainLayout}
+        path="/events/create"
+      />
+
+      <RouteWithLayout
+        component={CreateEventsReservation}
+        exact
+        layout={MainLayout}
+        path="/events/reservations/create"
+      />
+
+      <RouteWithLayout
         component={Restaurants}
         exact
         layout={MainLayout}
         path="/restaurants"
+      />
+      <RouteWithLayout
+        component={RestaurantReservations}
+        exact
+        layout={MainLayout}
+        path="/restaurants/reservations"
+      />
+      <RouteWithLayout
+        component={CreateRestaurantReservation}
+        exact
+        layout={MainLayout}
+        path="/restaurants/reservations/create"
       />
       <RouteWithLayout
         component={CreateRestaurant}
@@ -57,11 +101,24 @@ const Routes = () => {
         layout={MainLayout}
         path="/restaurants/create"
       />
+
+      <RouteWithLayout
+        component={CreateGymsReservation}
+        exact
+        layout={MainLayout}
+        path="/gyms/reservations/create"
+      />
       <RouteWithLayout
         component={Gyms}
         exact
         layout={MainLayout}
         path="/gyms"
+      />
+      <RouteWithLayout
+        component={GymReservations}
+        exact
+        layout={MainLayout}
+        path="/gyms/reservations"
       />
       <RouteWithLayout
         component={CreateGym}
@@ -76,16 +133,34 @@ const Routes = () => {
         path="/spas"
       />
       <RouteWithLayout
+        component={SpaReservations}
+        exact
+        layout={MainLayout}
+        path="/spas/reservations"
+      />
+      <RouteWithLayout
+        component={CreateSpaReservation}
+        exact
+        layout={MainLayout}
+        path="/spas/reservations/create"
+      />
+      <RouteWithLayout
+        component={CreateSpa}
+        exact
+        layout={MainLayout}
+        path="/spas/create"
+      />
+      <RouteWithLayout
         component={Gyms}
         exact
         layout={MainLayout}
         path="/gyms"
       />
       <RouteWithLayout
-        component={Videos}
+        component={Gyms}
         exact
         layout={MainLayout}
-        path="/videos"
+        path="/gyms/reservations"
       />
       <RouteWithLayout
         component={Account}

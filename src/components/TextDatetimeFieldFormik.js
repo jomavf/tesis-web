@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
 
-export const TextFieldFormik = ({
+export const TextDatetimeFieldFormik = ({
   formik,
   name,
   label,
@@ -10,12 +10,15 @@ export const TextFieldFormik = ({
 }) => {
   return (
     <TextField
+      id="datetime-local"
+      type="datetime-local"
       fullWidth
       helperText={
         formik.touched[name] && formik.errors[name]
           ? formik.errors[name]
           : helperTextDefault
       }
+      defaultValue={new Date().toISOString().substr(0, 16)}
       error={formik.touched[name] && formik.errors[name]}
       label={label}
       margin="dense"
@@ -23,7 +26,9 @@ export const TextFieldFormik = ({
       onChange={formik.handleChange}
       value={formik.values[name]}
       variant="outlined"
-      {...props}
+      InputLabelProps={{
+        shrink: true,
+      }}
     />
   );
 };

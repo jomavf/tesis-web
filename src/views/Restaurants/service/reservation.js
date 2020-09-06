@@ -1,9 +1,8 @@
 import { BASE_URL } from "../../../constants";
-export * from "./reservation";
+const urlRestaurantReservation = `${BASE_URL}/reservation-restaurants`;
 
-export async function requestItems() {
-  const url = `${BASE_URL}/gyms`;
-  const response = await fetch(url, {
+export async function requestReservation() {
+  const response = await fetch(urlRestaurantReservation, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
@@ -12,10 +11,9 @@ export async function requestItems() {
   return await response.json();
 }
 
-export async function requestCreateOrUpdate(data) {
-  const url = `${BASE_URL}/gyms`;
+export async function requestCreateOrUpdateReservation(data) {
   let response = null;
-  response = await fetch(url, {
+  response = await fetch(urlRestaurantReservation, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -25,10 +23,9 @@ export async function requestCreateOrUpdate(data) {
   return await response.json();
 }
 
-export async function requestDelete(id) {
-  const url = `${BASE_URL}/gyms/${id}`;
+export async function requestReservationDelete(id) {
   let response = null;
-  response = await fetch(url, {
+  response = await fetch(`${urlRestaurantReservation}/${id}`, {
     method: "DELETE",
   });
   return await response.json();

@@ -1,8 +1,7 @@
 import { BASE_URL } from "../../../constants";
 export * from "./reservation";
-
 export async function requestItems() {
-  const url = `${BASE_URL}/gyms`;
+  const url = `${BASE_URL}/spas`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
@@ -13,7 +12,7 @@ export async function requestItems() {
 }
 
 export async function requestCreateOrUpdate(data) {
-  const url = `${BASE_URL}/gyms`;
+  const url = `${BASE_URL}/spas`;
   let response = null;
   response = await fetch(url, {
     method: "POST",
@@ -26,7 +25,7 @@ export async function requestCreateOrUpdate(data) {
 }
 
 export async function requestDelete(id) {
-  const url = `${BASE_URL}/gyms/${id}`;
+  const url = `${BASE_URL}/spas/${id}`;
   let response = null;
   response = await fetch(url, {
     method: "DELETE",

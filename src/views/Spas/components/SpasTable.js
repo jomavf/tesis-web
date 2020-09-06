@@ -46,49 +46,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
+export const SpasTable = ({ className, items, setItems, ...rest }) => {
   const history = useHistory();
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [selectedGyms, setSelectedGyms] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [gymIdToDelete, setGymIdToDelete] = useState(null);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
 
   const handleSelectAll = (event) => {
-    let selectedGyms;
+    let selectedItems;
     if (event.target.checked) {
-      selectedGyms = gyms.map((gym) => gym.id);
+      selectedItems = items.map((item) => item.id);
     } else {
-      selectedGyms = [];
+      selectedItems = [];
     }
 
-    setSelectedGyms(selectedGyms);
+    setSelectedItems(selectedItems);
   };
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedGyms.indexOf(id);
-    let newSelectedGyms = [];
+  const handleSelectOne = (item, id) => {
+    const selectedIndex = selectedItems.indexOf(id);
+    let newSelectedItems = [];
 
     if (selectedIndex === -1) {
-      newSelectedGyms = newSelectedGyms.concat(selectedGyms, id);
+      newSelectedItems = newSelectedItems.concat(selectedItems, id);
     } else if (selectedIndex === 0) {
-      newSelectedGyms = newSelectedGyms.concat(selectedGyms.slice(1));
-    } else if (selectedIndex === selectedGyms.length - 1) {
-      newSelectedGyms = newSelectedGyms.concat(selectedGyms.slice(0, -1));
+      newSelectedItems = newSelectedItems.concat(selectedItems.slice(1));
+    } else if (selectedIndex === selectedItems.length - 1) {
+      newSelectedItems = newSelectedItems.concat(selectedItems.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedGyms = newSelectedGyms.concat(
-        selectedGyms.slice(0, selectedIndex),
-        selectedGyms.slice(selectedIndex + 1)
+      newSelectedItems = newSelectedItems.concat(
+        selectedItems.slice(0, selectedIndex),
+        selectedItems.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedGyms(newSelectedGyms);
+    setSelectedItems(newSelectedItems);
   };
 
-  const handlePageChange = (event, page) => {
+  const handlePageChange = (item, page) => {
     setPage(page);
   };
 
@@ -107,11 +107,11 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
                   <TableRow>
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={selectedGyms.length === gyms.length}
+                        checked={selectedItems.length === items.length}
                         color="primary"
                         indeterminate={
-                          selectedGyms.length > 0 &&
-                          selectedGyms.length < gyms.length
+                          selectedItems.length > 0 &&
+                          selectedItems.length < items.length
                         }
                         onChange={handleSelectAll}
                       />
@@ -124,31 +124,35 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {gyms.slice(0, rowsPerPage).map((gym) => (
+                  {items.slice(0, rowsPerPage).map((item) => (
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={gym.id}
-                      selected={selectedGyms.indexOf(gym.id) !== -1}
+                      key={item.id}
+                      selected={selectedItems.indexOf(item.id) !== -1}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                          checked={selectedGyms.indexOf(gym.id) !== -1}
+                          checked={selectedItems.indexOf(item.id) !== -1}
                           color="primary"
-                          onChange={(event) => handleSelectOne(event, gym.id)}
+                          onChange={(itemSelected) =>
+                            handleSelectOne(itemSelected, item.id)
+                          }
                           value="true"
                         />
                       </TableCell>
-                      <TableCell>{gym.name}</TableCell>
-                      <TableCell>{gym.description}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.description}</TableCell>
                       <TableCell>
                         <EditIcon
-                          onClick={() => history.push("/gyms/create", { gym })}
+                          onClick={() =>
+                            history.push("/spas/create", { item: item })
+                          }
                         />{" "}
                         <DeleteIcon
                           onClick={() => {
                             setOpenDeleteDialog(true);
-                            setGymIdToDelete(gym.id);
+                            setItemIdToDelete(item.id);
                           }}
                         />
                       </TableCell>
@@ -162,7 +166,7 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={gyms.length}
+            count={items.length}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowsPerPageChange}
             page={page}
@@ -175,16 +179,16 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
       <DeleteDialog
         handleDeletion={async () => {
           try {
-            if (!gymIdToDelete) {
+            if (!itemIdToDelete) {
               return;
             }
-            let result = await requestDelete(gymIdToDelete);
+            let result = await requestDelete(itemIdToDelete);
 
             const { ok, data } = await requestItems();
             if (!ok) {
               console.log("some error ocurred!");
             }
-            setGyms(data);
+            setItems(data);
             enqueueSnackbar(SUCCESSFUL_OPERATION, {
               variant: "success",
             });
@@ -197,9 +201,4 @@ export const GymsTable = ({ className, gyms, setGyms, ...rest }) => {
       />
     </>
   );
-};
-
-GymsTable.propTypes = {
-  className: PropTypes.string,
-  gyms: PropTypes.array.isRequired,
 };
