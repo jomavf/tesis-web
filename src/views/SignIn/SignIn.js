@@ -35,6 +35,20 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   quoteContainer: {
+    position: "relative",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+  mask: {
+    position: "absolute",
+    margin: "10px solid red",
+    backgroundColor: "rgba(54, 17, 17, 0.4)",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: 9,
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
@@ -49,12 +63,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
+    zIndex: 10,
   },
   quoteInner: {
     textAlign: "center",
     flexBasis: "600px",
+    zIndex: 10,
   },
   quoteText: {
+    zIndex: 10,
     color: theme.palette.white,
     fontWeight: 300,
   },
@@ -183,6 +200,7 @@ const SignIn = (props) => {
     <div className={classes.root}>
       <Grid className={classes.grid} container>
         <Grid className={classes.quoteContainer} item lg={5}>
+          <div id="hey" className={classes.mask}></div>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
               <Typography className={classes.quoteText} variant="h1">

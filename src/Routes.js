@@ -17,6 +17,11 @@ import { CreateGym } from "./views/Gyms/CreateGym";
 import { Reservations as GymReservations } from "./views/Gyms/Reservations";
 import { CreateReservation as CreateGymsReservation } from "./views/Gyms/CreateReservation";
 
+import { Locals } from "./views/Locals/Locals";
+import { CreateLocal } from "./views/Locals/CreateLocal";
+import { Reservations as LocalReservations } from "./views/Locals/Reservations";
+import { CreateReservation as CreateLocalsReservation } from "./views/Locals/CreateReservation";
+
 import { Restaurants } from "./views/Restaurants/Restaurants";
 import { Reservations as RestaurantReservations } from "./views/Restaurants/Reservations";
 import { CreateRestaurant } from "./views/Restaurants/CreateRestaurant";
@@ -125,6 +130,30 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/gyms/create"
+      />
+      <RouteWithLayout
+        component={CreateLocalsReservation}
+        exact
+        layout={MainLayout}
+        path="/locals/reservations/create"
+      />
+      <RouteWithLayout
+        component={Locals}
+        exact
+        layout={MainLayout}
+        path="/locals"
+      />
+      <RouteWithLayout
+        component={LocalReservations}
+        exact
+        layout={MainLayout}
+        path="/locals/reservations"
+      />
+      <RouteWithLayout
+        component={CreateLocal}
+        exact
+        layout={MainLayout}
+        path="/locals/create"
       />
       <RouteWithLayout
         component={Spas}
