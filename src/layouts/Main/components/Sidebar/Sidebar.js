@@ -11,6 +11,7 @@ import SpaIcon from "@material-ui/icons/Spa";
 import LocalActivityIcon from "@material-ui/icons/LocalActivity";
 import EventIcon from "@material-ui/icons/Event";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
+import InternetIcon from "@material-ui/icons/PermScanWifi";
 
 import { Profile, SidebarNav } from "./components";
 
@@ -45,9 +46,15 @@ const Sidebar = (props) => {
   const pages = [
     {
       index: 0,
-      title: "Huespedes",
-      href: "/guests",
+      title: "Check-in",
+      href: "/check-in",
       icon: <PeopleIcon />,
+    },
+    {
+      index: 0,
+      title: "Solicitud Internet",
+      href: "/internet-request",
+      icon: <InternetIcon />,
     },
     {
       index: 1,

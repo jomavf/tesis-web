@@ -5,8 +5,6 @@ import { RouteWithLayout } from "./components/RouteWithLayout";
 import { Main as MainLayout } from "./layouts/Main/Main";
 import { Minimal as MinimalLayout } from "./layouts/Minimal/Minimal";
 
-import Guests from "./views/Guests/Guests";
-
 import { Events } from "./views/Events/Events";
 import { CreateEvent } from "./views/Events/CreateEvent";
 import { Reservations as EventReservations } from "./views/Events/Reservations";
@@ -41,6 +39,11 @@ import SignUp from "./views/SignUp";
 import { NotFound as NotFoundView } from "./views/NotFound";
 import { CreateReservation } from "./components/CreateReservation";
 
+import { CheckIn } from "./views/CheckIn/CheckIn";
+import { CreateCheckIn } from "./views/CheckIn/CreateCheckIn";
+
+import { InternetRequest } from "./views/InternetRequest/InternetRequest";
+
 const Routes = () => {
   const history = useHistory();
   if (localStorage.getItem("token") == null) {
@@ -49,12 +52,24 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Redirect exact from="/" to="/guests" />
+      <Redirect exact from="/" to="/check-in" />
       <RouteWithLayout
-        component={Guests}
+        component={InternetRequest}
         exact
         layout={MainLayout}
-        path="/guests"
+        path="/internet-request"
+      />
+      <RouteWithLayout
+        component={CheckIn}
+        exact
+        layout={MainLayout}
+        path="/check-in"
+      />
+      <RouteWithLayout
+        component={CreateCheckIn}
+        exact
+        layout={MainLayout}
+        path="/check-in/create"
       />
       <RouteWithLayout
         component={Events}
