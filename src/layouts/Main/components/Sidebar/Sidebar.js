@@ -12,6 +12,8 @@ import LocalActivityIcon from "@material-ui/icons/LocalActivity";
 import EventIcon from "@material-ui/icons/Event";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 import InternetIcon from "@material-ui/icons/PermScanWifi";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import PlaceIcon from "@material-ui/icons/Place";
 
 import { Profile, SidebarNav } from "./components";
 
@@ -121,6 +123,19 @@ const Sidebar = (props) => {
           href: "/locals/reservations",
         },
       ],
+    },
+
+    {
+      index: 5,
+      title: "Lugares Turisticos",
+      icon: <PlaceIcon />,
+      href: "/locals/reservations",
+    },
+    {
+      index: 6,
+      title: "Productos",
+      icon: <AddShoppingCartIcon />,
+      href: "/locals/reservations",
     },
   ];
 
