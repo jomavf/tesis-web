@@ -135,7 +135,7 @@ const Sidebar = (props) => {
       index: 6,
       title: "Productos",
       icon: <AddShoppingCartIcon />,
-      href: "/locals/reservations",
+      href: "/products",
     },
   ];
 

@@ -42,6 +42,9 @@ import { CreateReservation } from "./components/CreateReservation";
 import { CheckIn } from "./views/CheckIn/CheckIn";
 import { CreateCheckIn } from "./views/CheckIn/CreateCheckIn";
 
+import { Products } from "./views/Products/Products";
+import { CreateProduct } from "./views/Products/CreateProduct";
+
 import { InternetRequest } from "./views/InternetRequest/InternetRequest";
 
 const Routes = () => {
@@ -181,6 +184,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/spas/reservations"
+      />
+      <RouteWithLayout
+        component={CreateProduct}
+        exact
+        layout={MainLayout}
+        path="/products/create"
+      />
+      <RouteWithLayout
+        component={Products}
+        exact
+        layout={MainLayout}
+        path="/products"
       />
       <RouteWithLayout
         component={CreateSpaReservation}
