@@ -127,11 +127,6 @@ export const CreateTouristicPlaces = ({ className, location, ...rest }) => {
             </Grid>
           </Grid>
         </CardContent>
-        <hr />
-        {JSON.stringify(formik.values, null, 2)}
-        <hr />
-        {JSON.stringify(item, null, 2)}
-        <hr />
         <Divider />
         <CardActions>
           <Button type="submit" color="primary" variant="contained">
