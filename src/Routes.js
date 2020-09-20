@@ -45,6 +45,9 @@ import { CreateCheckIn } from "./views/CheckIn/CreateCheckIn";
 import { Products } from "./views/Products/Products";
 import { CreateProduct } from "./views/Products/CreateProduct";
 
+import { TouristicPlaces } from "./views/TouristicPlaces/TouristicPlaces";
+import { CreateTouristicPlaces } from "./views/TouristicPlaces/CreateTouristicPlaces";
+
 import { InternetRequest } from "./views/InternetRequest/InternetRequest";
 
 const Routes = () => {
@@ -196,6 +199,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/products"
+      />
+      <RouteWithLayout
+        component={CreateTouristicPlaces}
+        exact
+        layout={MainLayout}
+        path="/touristic-places/create"
+      />
+      <RouteWithLayout
+        component={TouristicPlaces}
+        exact
+        layout={MainLayout}
+        path="/touristic-places"
       />
       <RouteWithLayout
         component={CreateSpaReservation}

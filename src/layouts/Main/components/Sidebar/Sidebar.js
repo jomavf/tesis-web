@@ -129,7 +129,7 @@ const Sidebar = (props) => {
       index: 5,
       title: "Lugares Turisticos",
       icon: <PlaceIcon />,
-      href: "/touristicPlaces",
+      href: "/touristic-places",
     },
     {
       index: 6,
