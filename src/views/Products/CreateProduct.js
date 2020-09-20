@@ -167,7 +167,7 @@ export const CreateProduct = ({ className, location, ...rest }) => {
                       key={index}
                       value={item ? item.has_stock : c.value}
                       defaultValue={item ? item.has_stock : c.value}
-                      selected={item.has_stock === Boolean(+c.value)}
+                      selected={item && item.has_stock === Boolean(+c.value)}
                       defaultChecked={item ? item.has_stock : index === 1}
                     >
                       {c.label}
@@ -193,7 +193,7 @@ export const CreateProduct = ({ className, location, ...rest }) => {
                     <option
                       key={index}
                       value={c.id}
-                      selected={item.product_category_id === +c.id}
+                      selected={item && item.product_category_id === +c.id}
                     >
                       {c.name}
                     </option>
