@@ -27,6 +27,10 @@ const useStyles = makeStyles(() => ({
 const CreateRestaurantSchema = Yup.object().shape({
   name: Yup.string().required("*Este campo es requerido"),
   description: Yup.string().required("*Este campo es requerido"),
+  quantity: Yup.string().required("*Este campo es requerido"),
+  price: Yup.string().required("*Este campo es requerido"),
+  has_stock: Yup.string().required("*Este campo es requerido"),
+  product_category_id: Yup.string().required("*Este campo es requerido"),
   img_url: Yup.string()
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/,
@@ -60,8 +64,8 @@ export const CreateProduct = ({ className, location, ...rest }) => {
           name: "",
           description: "",
           img_url: "",
-          price: null,
-          quantity: null,
+          price: "",
+          quantity: "",
           has_stock: "0",
           product_category_id: "1", // TODO: fix hardcode value
           active: true,
@@ -210,6 +214,9 @@ export const CreateProduct = ({ className, location, ...rest }) => {
           </Button>
         </CardActions>
       </form>
+      <code>
+        <pre>{JSON.stringify(formik.errors, null, 2)}</pre>
+      </code>
     </Card>
   );
 };

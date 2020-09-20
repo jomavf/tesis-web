@@ -26,6 +26,8 @@ const useStyles = makeStyles(() => ({
 const CreateRestaurantSchema = Yup.object().shape({
   name: Yup.string().required("*Este campo es requerido"),
   description: Yup.string().required("*Este campo es requerido"),
+  address: Yup.string().required("*Este campo es requerido"),
+  reference_address: Yup.string().required("*Este campo es requerido"),
   img_url: Yup.string()
     .matches(
       /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/,
