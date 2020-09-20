@@ -214,9 +214,6 @@ export const CreateProduct = ({ className, location, ...rest }) => {
           </Button>
         </CardActions>
       </form>
-      <code>
-        <pre>{JSON.stringify(formik.errors, null, 2)}</pre>
-      </code>
     </Card>
   );
 };
