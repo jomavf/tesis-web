@@ -50,7 +50,7 @@ export const ProductsTable = ({ className, items, setItems, ...rest }) => {
   const history = useHistory();
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const domain = "local";
+  const domain = "product";
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -119,6 +119,10 @@ export const ProductsTable = ({ className, items, setItems, ...rest }) => {
                     </TableCell>
                     <TableCell>Nombre</TableCell>
                     <TableCell>Descripción</TableCell>
+                    <TableCell>Precio</TableCell>
+                    <TableCell>Cantidad</TableCell>
+                    <TableCell>Stock</TableCell>
+                    <TableCell>Categoria</TableCell>
                     {/* <TableCell>Capacidad</TableCell>
                   {/* <TableCell>Horario de atención</TableCell> */}
                     <TableCell>Acciones</TableCell>
@@ -144,6 +148,12 @@ export const ProductsTable = ({ className, items, setItems, ...rest }) => {
                       </TableCell>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{item.quantity}</TableCell>
+                      <TableCell>{item.has_stock ? "Si" : "No"}</TableCell>
+                      <TableCell>
+                        {item.category ? item.category.name : "Ninguna"}
+                      </TableCell>
                       <TableCell>
                         <EditIcon
                           onClick={() =>

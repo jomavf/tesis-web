@@ -38,7 +38,7 @@ export const ProductsToolbar = (props) => {
       <div className={classes.row}>
         <span className={classes.spacer} />
         <Button color="primary" variant="contained" onClick={handleAddItem}>
-          Añadir
+          Añadir producto
         </Button>
       </div>
       <div className={classes.row}>
