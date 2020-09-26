@@ -25,13 +25,17 @@ export async function requestRooms() {
 export async function requestCreateOrUpdateItem(data) {
   let response = null;
 
-  debugger;
   response = await fetch(urlCheckIns, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      ...data,
+      should_show_on_boarding: Boolean(+data.should_show_on_boarding)
+        ? true
+        : false,
+    }),
   });
   return await response.json();
 }

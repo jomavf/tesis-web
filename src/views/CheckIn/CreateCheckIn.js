@@ -48,12 +48,22 @@ export const CreateCheckIn = ({ name = "", className, location, ...rest }) => {
           [domainId]: checkIn.room_id,
           start_date: checkIn.start_date.substr(0, 16),
           end_date: checkIn.end_date.substr(0, 16),
+
+          language: checkIn.configuration.languaje,
+          currency: checkIn.configuration.guest_id,
+          should_show_on_boarding: checkIn.configuration.should_show_on_boarding
+            ? "1"
+            : "0",
         }
       : {
           guest_id: null,
           [domainId]: "",
           start_date: new Date().toISOString().substr(0, 16),
           end_date: new Date().toISOString().substr(0, 16),
+
+          language: "español",
+          currency: "soles",
+          should_show_on_boarding: "1",
         }
   );
 
@@ -62,11 +72,15 @@ export const CreateCheckIn = ({ name = "", className, location, ...rest }) => {
     [domainId]: null,
     start_date: null,
     end_date: null,
+
+    languaje: null,
+    currency: null,
+    should_show_on_boarding: null,
   });
 
   const handleChange = (event, pvalue = null, pname = null) => {
-    const value = pvalue || event.target.value;
-    const name = pname || event.target.name;
+    const value = pvalue || (event ? event.target.value : "");
+    const name = pname || (event ? event.target.name : "");
     setData((d) => ({ ...d, [name]: value }));
   };
 
@@ -106,7 +120,6 @@ export const CreateCheckIn = ({ name = "", className, location, ...rest }) => {
       const guestsResponse = await requestGuests();
       setGuests(guestsResponse.data);
       const domainListResponse = await requestDomainList();
-      debugger;
       setDomainList(domainListResponse.data);
     } catch (err) {
       console.log(err);
@@ -243,6 +256,106 @@ export const CreateCheckIn = ({ name = "", className, location, ...rest }) => {
                 }}
               />
             </Grid>
+            <Grid item md={6} xs={12}>
+              <Autocomplete
+                name="languaje"
+                id="combo-box-demo"
+                options={["español", "ingles"]}
+                getOptionLabel={(option) => {
+                  const [firstLetter, ...rest] = option;
+                  return `${firstLetter.toUpperCase()}${rest.join("")}`;
+                }}
+                style={{ width: "100%" }}
+                defaultValue={
+                  checkIn ? checkIn.configuration.languaje : "español"
+                }
+                onChange={(event, newValue) => {
+                  debugger;
+                  handleChange(null, newValue, "language");
+                }}
+                renderInput={(params) => {
+                  return (
+                    <TextField
+                      {...params}
+                      label="Idioma"
+                      variant="outlined"
+                      helperText={
+                        errors["language"]
+                          ? errors["language"]
+                          : `Por favor ingrese el lenguaje`
+                      }
+                      error={errors["language"] != null}
+                    />
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Autocomplete
+                name="currency"
+                id="combo-box-demo"
+                options={["soles", "euros", "dolares"]}
+                getOptionLabel={(option) => {
+                  const [firstLetter, ...rest] = option;
+                  return `${firstLetter.toUpperCase()}${rest.join("")}`;
+                }}
+                style={{ width: "100%" }}
+                defaultValue={
+                  checkIn ? checkIn.configuration.currency : "soles"
+                }
+                onChange={(event, newValue) => {
+                  handleChange(null, newValue, "currency");
+                }}
+                renderInput={(params) => {
+                  return (
+                    <TextField
+                      {...params}
+                      label="Moneda"
+                      variant="outlined"
+                      helperText={
+                        errors["currency"]
+                          ? errors["currency"]
+                          : `Por favor ingrese la moneda`
+                      }
+                      error={errors["currency"] != null}
+                    />
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Autocomplete
+                name="should_show_on_boarding"
+                id="combo-box-demo"
+                options={["1", "0"]}
+                getOptionLabel={(option) => {
+                  return Boolean(+option) ? "Mostrar" : "No Mostrar";
+                }}
+                style={{ width: "100%" }}
+                defaultValue={checkIn ? checkIn.configuration.currency : true}
+                onChange={(event, newValue) => {
+                  handleChange(null, newValue, "should_show_on_boarding");
+                }}
+                renderInput={(params) => {
+                  return (
+                    <TextField
+                      {...params}
+                      label="Mostrar bienvenida"
+                      variant="outlined"
+                      helperText={
+                        errors["should_show_on_boarding"]
+                          ? errors["should_show_on_boarding"]
+                          : `Por favor ingrese si se debe mostrar pantalla de bienvenida`
+                      }
+                      error={errors["should_show_on_boarding"] != null}
+                    />
+                  );
+                }}
+              />
+            </Grid>
+            <code>
+              <pre>{JSON.stringify(data, null, 2)}</pre>
+            </code>
           </Grid>
         </CardContent>
         <Divider />
