@@ -353,9 +353,9 @@ export const CreateCheckIn = ({ name = "", className, location, ...rest }) => {
                 }}
               />
             </Grid>
-            <code>
+            {/* <code>
               <pre>{JSON.stringify(data, null, 2)}</pre>
-            </code>
+            </code> */}
           </Grid>
         </CardContent>
         <Divider />
